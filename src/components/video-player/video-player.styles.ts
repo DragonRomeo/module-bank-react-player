@@ -8,6 +8,11 @@ export const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
+  fake_player__button: {
+    fontSize: '30px',
+    width: '60px',
+    height: '60px',
+  },
   react_player_wrapper: {
     display: 'flex',
     justifyContent: 'center',
