@@ -25,7 +25,7 @@ export const playerMachine = createMachine({
       states: {
         mini: {
           meta: {
-            description: 'The video is just a small and dont have any function',
+            description: 'The video is just a small and have only resize function',
           },
           on: {
             toggle: 'full',
