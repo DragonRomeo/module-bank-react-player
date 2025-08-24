@@ -67,16 +67,12 @@ const VideoPlayer = () => {
           onCancel={toggleModal}
           footer={
             <>
-              <Button key='toggle' onClick={() => handleToggle()}>
+              <Button key='toggle' onClick={handleToggle}>
                 Switch Size
               </Button>
 
               {isFullScreen ? (
-                <Button
-                  key='play'
-                  type='primary'
-                  onClick={() => handlePlayPause()}
-                >
+                <Button key='play' type='primary' onClick={handlePlayPause}>
                   Play/Pause
                 </Button>
               ) : (
