@@ -20,20 +20,11 @@ import { styles } from './video-player.styles';
 import { playerMachine } from './playerMachine';
 
 const VideoPlayer = () => {
-  const [state, send] = useMachine(playerMachine, {
-    inspect,
-  });
+  const [state, send] = useMachine(playerMachine, { inspect });
+
+  const isOpen = state.matches('open');
   const isFullScreen = state.matches({ open: 'full' });
-  const isPlaying = state.matches({
-    open: {
-      full: 'playing',
-    },
-  });
-  const isPaused = state.matches({
-    open: {
-      full: 'paused',
-    },
-  });
+  const isPlaying = state.context.isPlaying;
 
   const toggleModal = () => {
     send({ type: 'toggleModal' });
@@ -44,13 +35,10 @@ const VideoPlayer = () => {
   };
 
   const handlePlayPause = () => {
-    switch (true) {
-      case isPlaying:
-        send({ type: 'pause' });
-        break;
-      case isPaused:
-        send({ type: 'play' });
-        break;
+    if (isPlaying) {
+      send({ type: 'pause' });
+    } else {
+      send({ type: 'play' });
     }
   };
 
@@ -70,7 +58,7 @@ const VideoPlayer = () => {
           width={isFullScreen ? fullWidthPx : miniWidthPx}
           title='Player'
           centered={true}
-          open={state.matches('open')}
+          open={isOpen}
           onOk={toggleModal}
           onCancel={toggleModal}
           footer={
@@ -81,29 +69,20 @@ const VideoPlayer = () => {
                 shape='circle'
                 onClick={handleToggle}
                 icon={isFullScreen ? <ShrinkOutlined /> : <ArrowsAltOutlined />}
-              ></Button>
-
-              {isFullScreen ? (
-                <Button
-                  key='play'
-                  size='large'
-                  shape='circle'
-                  onClick={handlePlayPause}
-                  icon={isPlaying ? <PauseOutlined /> : <StepForwardOutlined />}
-                ></Button>
-              ) : (
-                <></>
-              )}
+              />
+              <Button
+                key='play'
+                size='large'
+                shape='circle'
+                onClick={handlePlayPause}
+                icon={isPlaying ? <PauseOutlined /> : <StepForwardOutlined />}
+              />
             </>
           }
         >
           <div style={styles.react_player_wrapper}>
             <ReactPlayer
-              playing={state.matches({
-                open: {
-                  full: 'playing',
-                },
-              })}
+              playing={isPlaying}
               loop={true}
               src={url}
               width={isFullScreen ? fullWidthPx : miniWidthPx}

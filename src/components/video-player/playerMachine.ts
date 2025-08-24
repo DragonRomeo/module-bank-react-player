@@ -1,10 +1,12 @@
-import { createMachine } from 'xstate';
+import { assign, createMachine } from 'xstate';
 
-// TODO: add toggle on key ESCAPE or delete this from machine
 export const playerMachine = createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgOgFsBLAOyIGIAXAeyilTAG0AGAXURWtiMqOpI4gAHogBMANgCceABwAWAMwB2AKwAaEJkQyVeUSoC+BjWiy48AMwCuqVFVr0mbQci48+ApMLEK5eAIxyzOL6GloI-jLieobGIKbY+Na25ADWYJh4cADG6MhO7F6u3Lz8giIIor4BQSHqmoj+CrqqRnEk1BBwLhiJLm6lnqAVALTiYYhjRia95sRk-SUe5YgKMtKBwaENCFF4rXEJ5smoi+5lXhVyohO7-nixRkA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgOgGNUB7WSAYgBdiopUwBZYidVAbQAYBdRFUgS0r9iAO14gAHogCMANll4OSpfIAsAZlUAOAOyyANCEyIATOp15pHExy1aAnDp0BWHbYC+7w2iy48xZDARKho6RmZWTh4kEGQBIVFxKQQ5BWUVWQ1tPUNjFK0FWWsOexNZZwL1Ex11T28MbHwAoLwAW34RfhDaeijxONhBYTEY5OcTVTw3dWkdDR1pdXstVVzTBzxnZ1kyjmdVaRMy1VU62Ia-ZpE2jq6fTD6YgaHE0cRMjjwbGdl7HfMNGsEBMFPZnDN1L89hwarUvOdfE1Atd2p1yMh0ABXMiPPiDBIjUDJD5fDg-P5mObqIHSZzSRTKRZbezqDiqaxne6XZF4ABmmNQqG6YVxsXiwySiG09gZSjM5RMs1KQM0nz2O22BQ4chOOk5FyRLX5gvIAGswJg8HACOhAqLngTJQhpbLrJDxkqTCr7J8thqZjp7FYTFt9Yj-DzjUL7vbxa8iYhIfTvtJtCV1OoHLogdUZUctIsdFptTNSqd4VzDdco+isTjuP044TJInZMmyaniyzM8sdDStOovi5tSctqGziJmHB+gbG-iJW8EABaAxGRBLiau9LbmFhxqEEhkCBzl7N5KqL1rlKlPCyLT7Ez3qxOZzLPfcoInx2L1kWdKzJQCiDVc8lkQdnEZVMi0WMw4XqcMrhuTovwXBMEDAyZ0kzcEfV1FVVAsH0diKENbAvWR3yrPkBVQFD4xbBB1C2V0ANsX45BVYtLALMppCg2x72cTxPCAA */
   id: 'player',
   initial: 'closed',
+  context: {
+    isPlaying: false,
+  },
   states: {
     closed: {
       meta: {
@@ -25,33 +27,27 @@ export const playerMachine = createMachine({
       states: {
         mini: {
           meta: {
-            description:
-              'The video is just a small and have only resize function',
+            description: 'The video is just a small and have same functions',
           },
           on: {
             toggle: 'full',
+            play: {
+              actions: assign({ isPlaying: true }),
+            },
+            pause: {
+              actions: assign({ isPlaying: false }),
+            },
           },
         },
         full: {
-          initial: 'playing',
-          states: {
-            playing: {
-              entry: 'playVideo',
-              on: {
-                pause: 'paused',
-              },
-            },
-            paused: {
-              exit: 'pauseVideo',
-              on: {
-                play: 'playing',
-              },
-            },
-          },
-          exit: 'stopVideo',
           on: {
             toggle: 'mini',
-            'key.escape': 'mini',
+            play: {
+              actions: assign({ isPlaying: true }),
+            },
+            pause: {
+              actions: assign({ isPlaying: false }),
+            },
           },
         },
       },
