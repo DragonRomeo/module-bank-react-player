@@ -8,7 +8,7 @@ export const { inspect } = createBrowserInspector({
 });
 
 export const fullWidthPx = '952px';
-export const fullHeightPx = '452px';
+export const fullHeightPx = '552px';
 
 export const miniWidthPx = '452px';
 export const miniHeightPx = '254px';
