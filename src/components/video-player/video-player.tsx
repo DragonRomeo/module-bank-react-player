@@ -1,5 +1,11 @@
 import { useMachine } from '@xstate/react';
-import { PauseOutlined, StepForwardOutlined } from '@ant-design/icons';
+import {
+  ArrowsAltOutlined,
+  PauseOutlined,
+  ShrinkOutlined,
+  StepForwardOutlined,
+} from '@ant-design/icons';
+
 import { Button, Modal, Tooltip } from 'antd';
 import ReactPlayer from 'react-player';
 import {
@@ -69,13 +75,18 @@ const VideoPlayer = () => {
           onCancel={toggleModal}
           footer={
             <>
-              <Button key='toggle' onClick={handleToggle}>
-                Switch Size
-              </Button>
+              <Button
+                key='toggle'
+                size='large'
+                shape='circle'
+                onClick={handleToggle}
+                icon={isFullScreen ? <ShrinkOutlined /> : <ArrowsAltOutlined />}
+              ></Button>
 
               {isFullScreen ? (
                 <Button
                   key='play'
+                  size='large'
                   shape='circle'
                   onClick={handlePlayPause}
                   icon={isPlaying ? <PauseOutlined /> : <StepForwardOutlined />}
