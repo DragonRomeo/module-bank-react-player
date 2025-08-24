@@ -1,8 +1,7 @@
 import { useMachine } from '@xstate/react';
-import { StepForwardOutlined } from '@ant-design/icons';
+import { PauseOutlined, StepForwardOutlined } from '@ant-design/icons';
 import { Button, Modal, Tooltip } from 'antd';
 import ReactPlayer from 'react-player';
-
 import {
   fullHeightPx,
   fullWidthPx,
@@ -19,6 +18,16 @@ const VideoPlayer = () => {
     inspect,
   });
   const isFullScreen = state.matches({ open: 'full' });
+  const isPlaying = state.matches({
+    open: {
+      full: 'playing',
+    },
+  });
+  const isPaused = state.matches({
+    open: {
+      full: 'paused',
+    },
+  });
 
   const toggleModal = () => {
     send({ type: 'toggleModal' });
@@ -30,22 +39,15 @@ const VideoPlayer = () => {
 
   const handlePlayPause = () => {
     switch (true) {
-      case state.matches({
-        open: {
-          full: 'playing',
-        },
-      }):
+      case isPlaying:
         send({ type: 'pause' });
         break;
-      case state.matches({
-        open: {
-          full: 'paused',
-        },
-      }):
+      case isPaused:
         send({ type: 'play' });
         break;
     }
   };
+
   return (
     <>
       <h1>Video Player</h1>
@@ -72,9 +74,12 @@ const VideoPlayer = () => {
               </Button>
 
               {isFullScreen ? (
-                <Button key='play' type='primary' onClick={handlePlayPause}>
-                  Play/Pause
-                </Button>
+                <Button
+                  key='play'
+                  shape='circle'
+                  onClick={handlePlayPause}
+                  icon={isPlaying ? <PauseOutlined /> : <StepForwardOutlined />}
+                ></Button>
               ) : (
                 <></>
               )}
