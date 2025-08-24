@@ -53,6 +53,7 @@ function App() {
         <div style={styles.fake_player}>
           <Tooltip title='Play'>
             <Button
+              style={{ fontSize: '30px', width: '60px', height: '60px' }}
               shape='circle'
               icon={<StepForwardOutlined />}
               onClick={toggleModal}
