@@ -18,6 +18,7 @@ const VideoPlayer = () => {
   const [state, send] = useMachine(playerMachine, {
     inspect,
   });
+  const isFullScreen = state.matches({ open: 'full' });
 
   const toggleModal = () => {
     send({ type: 'toggleModal' });
@@ -58,7 +59,7 @@ const VideoPlayer = () => {
           />
         </Tooltip>
         <Modal
-          width={state.matches({ open: 'full' }) ? fullWidthPx : miniWidthPx}
+          width={isFullScreen ? fullWidthPx : miniWidthPx}
           title='Player'
           centered={true}
           open={state.matches('open')}
@@ -70,7 +71,7 @@ const VideoPlayer = () => {
                 Switch Size
               </Button>
 
-              {state.matches({ open: 'full' }) ? (
+              {isFullScreen ? (
                 <Button
                   key='play'
                   type='primary'
@@ -93,12 +94,8 @@ const VideoPlayer = () => {
               })}
               loop={true}
               src={url}
-              width={
-                state.matches({ open: 'full' }) ? fullWidthPx : miniWidthPx
-              }
-              height={
-                state.matches({ open: 'full' }) ? fullHeightPx : miniHeightPx
-              }
+              width={isFullScreen ? fullWidthPx : miniWidthPx}
+              height={isFullScreen ? fullHeightPx : miniHeightPx}
             />
           </div>
         </Modal>
