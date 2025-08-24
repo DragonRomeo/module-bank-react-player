@@ -4,9 +4,9 @@ import { createMachine } from 'xstate';
 export const playerMachine = createMachine({
   /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAnmATgOgFsBLAOyIGIAXAeyilTAG0AGAXURWtiMqOpI4gAHogBMANgCceABwAWAMwB2AKwAaEJkQyVeUSoC+BjWiy48AMwCuqVFVr0mbQci48+ApMLEK5eAIxyzOL6GloI-jLieobGIKbY+Na25ADWYJh4cADG6MhO7F6u3Lz8giIIor4BQSHqmoj+CrqqRnEk1BBwLhiJLm6lnqAVALTiYYhjRia95sRk-SUe5YgKMtKBwaENCFF4rXEJ5smoi+5lXhVyohO7-nixRkA */
   id: 'player',
-  initial: 'close',
+  initial: 'closed',
   states: {
-    close: {
+    closed: {
       meta: {
         description: 'Fake player',
       },
@@ -20,12 +20,13 @@ export const playerMachine = createMachine({
         description: 'Open modal',
       },
       on: {
-        toggleModal: 'close',
+        toggleModal: 'closed',
       },
       states: {
         mini: {
           meta: {
-            description: 'The video is just a small and have only resize function',
+            description:
+              'The video is just a small and have only resize function',
           },
           on: {
             toggle: 'full',
